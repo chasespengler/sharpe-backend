@@ -4,6 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+django = "*"
+pyyaml = "*"
+alpha-vantage = "*"
+uritemplate = "*"
 
 [dev-packages]
 pipenv = "*"

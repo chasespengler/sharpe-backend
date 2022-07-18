@@ -20,7 +20,7 @@ repos:
     - id: black
       args: # arguments to configure black
         - --line-length=100
-        - --include='(src|tests)/.+\.pyi?$'
+        - --include='(sharpe|tests)/.+\.pyi?$'
 
         # these folders wont be formatted by black
         - --exclude="""\.git |
