@@ -12,6 +12,7 @@ pyyaml = "*"
 alpha-vantage = "*"
 uritemplate = "*"
 numpy = "*"
+python-json-logger = "*"
 
 [dev-packages]
 pipenv = "*"
