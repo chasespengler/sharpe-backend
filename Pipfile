@@ -13,13 +13,16 @@ alpha-vantage = "*"
 uritemplate = "*"
 numpy = "*"
 python-json-logger = "*"
+yfinance = "*"
+python-dateutil = "*"
+commitizen = "*"
 
 [dev-packages]
 pipenv = "*"
 pre-commit = "*"
 flake8 = "*"
 black = "*"
-isort = {extras = ["pipfile_deprecated_finder", "requirements_deprecated_finder"], version = "*"}
+isort = {extras = ["pyproject"], version = "*"}
 commitizen = "*"
 
 [requires]
