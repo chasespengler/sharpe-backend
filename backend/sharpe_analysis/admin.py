@@ -8,3 +8,4 @@ class SharpeAdmin(admin.ModelAdmin):
 admin.site.register(Client)
 admin.site.register(Portfolio)
 admin.site.register(Security)
+#admin.site.register(User)

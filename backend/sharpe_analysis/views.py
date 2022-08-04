@@ -1,18 +1,28 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .forms import CreateUserForm, ClientForm
+from .models import *
 
-def dashboard(request, pk):
-    context = {}
+def dashboard(request):
+    cur_client = request.user.client
+    ports = cur_client.portfolio_set.all()
+    context = {'client': cur_client, 'portfolios': ports}
     return render(request, 'sharpe_analysis/dashboard.html', context)
 
 def registration(request):
-    form = UserCreationForm()
+    form = CreateUserForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Client.objects.create(
+                user=user, 
+                first_name = user.first_name, 
+                last_name=user.last_name, 
+                email=user.email
+                )
+            messages.success(request, 'Account successfully created!')
             return redirect('login')
     context = {'register_form':form}
     return render(request, 'sharpe_analysis/register.html', context)
