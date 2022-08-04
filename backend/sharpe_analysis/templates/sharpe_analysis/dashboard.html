@@ -7,7 +7,15 @@
 
 </head>
 <body>
-    <span><h1>Welcome, </h1>{{client.first_name}}</span>
+    <span>
+        <h1>Welcome, {{client.first_name}}</h1> 
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    </span>
+    {% for port in portfolios %}
+        <div>
+            {{port.portfolio_name}}
+        </div>
+    {% endfor %}
 </body>
 </html>
 

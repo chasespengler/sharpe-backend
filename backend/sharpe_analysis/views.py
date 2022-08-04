@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CreateUserForm, ClientForm
+from django.contrib.auth.decorators import login_required
 from .models import *
 
+@login_required(login_url='login')
 def dashboard(request):
     cur_client = request.user.client
     ports = cur_client.portfolio_set.all()
@@ -40,3 +42,7 @@ def loginPage(request):
 
     context = {}
     return render(request, 'sharpe_analysis/login.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
