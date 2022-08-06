@@ -1,21 +1,197 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Dashboard</title>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <style>
+
+        #logout-btn {
+            margin: 10px;
+        }
+
+        #add-port-btn {
+            margin: 10px;
+        }
+
+        /* Portfolio display table */
+        #portfolio-display {
+            margin: 15px;
+        }
+
+        #title-row {
+            border: 1px solid black;
+        }
+
+        #portfolio-info-row {
+            border: 1px solid black;
+        }
+
+        #portfolio-name-link {
+            text-decoration: none;
+        }
+
+        .col1 {
+            color: black;
+            width: 160px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+
+        #ytd {
+            color: green;
+        }
+
+        .col2 {
+            padding: 20px;
+            width: 160px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+        
+        .col3 {
+            width: 160px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+
+        /* Edit button */
+
+        #edit-port-btn {
+            background: blue;
+            border-radius: 25px;
+            padding: 5px;
+            width: 140px;
+            text-decoration: none;
+        }
+
+        #edit-port-btn:hover {
+            background: seagreen;
+        }
+
+        #edit-btn-container {
+            text-decoration: none;
+            display: flex;
+            text-align: center;
+            background: black;
+            justify-content: center;
+            align-items: center;
+            width: 160px;
+        }
+
+        #edit-port-btn-link {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Modal */
+        .modal-container {
+            opacity: 0;
+            
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vw;
+            overflow: auto;
+        }
+
+        .modal-dialog {
+            width: 600px;
+            height: 200px;
+            max-width: 95%;
+            border-radius: 20px;
+            padding: 25px;
+            background: green;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
     <span>
         <h1>Welcome, {{client.first_name}}</h1> 
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        <a id="logout-btn" href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     </span>
-    {% for port in portfolios %}
-        <div>
-            {{port.portfolio_name}}
+    <br></br>
+    <div id="add-port-btn">
+        <button id="create-port-btn" class="btn btn-primary" type="button">
+            Add Portfolio
+        </button>
+    </div>
+    <!--
+    <div class="modal-container" id="port-modal">
+        <span class="close" id="close-modal">&times;</span>
+        <div class="modal-text">
+                 Greetings
         </div>
-    {% endfor %}
+    </div>
+    -->
+    <div id="portfolio-display" class="container">
+        <div id="title-row" class="row">
+            <div class="title column col1">
+                Portfolio Name 
+            </div>
+            <div id="pnl-ytd-title" class="title column col2">
+                Gain/Loss YTD
+            </div>
+            <div id="top-holdings-title" class="title column col3">
+                Top Holdings
+            </div>
+        </div>
+        {% for port in portfolios %}
+            <div id="portfolio-info-row" class="row">
+                <a id="portfolio-name-link" class="col1" href="{% url 'portfolio' port.id %}">
+                    <div id="portfolio-name" class="column col1">
+                        {{port.portfolio_name}}
+                    </div>
+                </a>   
+                <div id="ytd" class="column col2">
+                    {{port.ytd}} %
+                </div>
+                <div id="top-holdings" class="column col3">
+                    {{port.portfolio_name}}'s top holdings
+                </div>
+                <div id="edit-btn-container" class="column">
+                    <a id="edit-port-btn-link" href="{% url 'edit_port' port.id %}">
+                        <div id="edit-port-btn">
+                            Edit Portfolio
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 </body>
+<!--
+<script>
+    var openbtn = document.getElementById('create-port-btn');
+    var modal_container = document.getElementById('port-modal');
+    var closebtn = document.getElementById('close-modal');
+
+    openbtn.onlick = function() {
+
+        console.log('FUCK')
+    }
+
+    closebtn.onlick = function() {
+        modal_container.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal_container) {
+            modal_container.style.display = 'none';
+        } 
+    }
+</script>
+-->
 </html>
 

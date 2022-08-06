@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dashboard</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        <style>
+            #securities-container {
+                background: green;
+            }
+            #security-row {
+                background: grey;
+            }
+
+            #add-sec {
+                border: solid 0.5px grey;
+                padding: 10px;
+                margin: 10px;
+                border-radius: 20px;
+            }
+
+            #sec-add-btn {
+                background: blue;
+                margin: 10px;
+                border-radius: 50px;
+                min-width: 40px;
+                color: white;
+                font-weight: bold;
+            }
+
+            #sec-add-btn:hover {
+                background: skyblue;
+                color: black;
+            }
+
+            #close-edit-port {
+                text-decoration: none;
+                color: black;
+                background: pink;
+                margin: 10px;
+            }
+
+            #close-edit-port:hover {
+                background: red;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Editing {{port.portfolio_name}}</h1>
+        <div class="container" id="securities-container">
+            {% for sec in secs %}
+                <div class="row" id="security-row">
+                    <div class="column" id="security-ticker">
+                        {{ sec.ticker }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div id="add-sec">
+                {{ formy.management_form }}
+                {% for f in formy %}
+                    {{ f.ticker.label }}
+                    {{ f.ticker }}
+                    {{ f.security_type.label }}
+                    {{ f.security_type }}
+                    {{ f.amount.label }}
+                    {{ f.amount }}
+                {% endfor %}
+            </div>
+            <div class='ticker-message'>
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
+            </div>
+            <div>
+                <input class="btn" id="sec-add-btn" type="submit" value="Add Security"/>
+            </div>
+        </form>
+        <a class="btn" id="close-edit-port" href="{% url 'dashboard' %}">
+            <div id="close-edit-port-btn">
+                Close
+            </div>
+        </a>
+    </body>
+</html>

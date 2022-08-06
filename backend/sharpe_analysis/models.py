@@ -30,6 +30,9 @@ class Portfolio(models.Model):
     #Relationships
     owner = models.ForeignKey(Client, on_delete=models.CASCADE)
 
+    #Attributes
+    ytd = 0
+
     def __str__(self):
         return self.portfolio_name
 
@@ -54,6 +57,8 @@ class Security(models.Model):
     def __str__(self):
         return self.ticker
 
+
+#Tried the following code to make the email a user's username/unique identifier
 
 """
 
