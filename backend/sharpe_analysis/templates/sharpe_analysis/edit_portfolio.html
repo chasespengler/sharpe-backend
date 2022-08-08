@@ -44,11 +44,76 @@
             #close-edit-port:hover {
                 background: red;
             }
+            
+            /* Add Portfolio Modal */
+
+            .modal-container {
+                display: none;
+                pointer-events: none;
+                
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vw;
+                overflow: auto;
+                justify-content: center;
+            }
+
+            .modal-text {
+                margin-top: 250px;
+                width: 600px;
+                height: 200px;
+                max-width: 95%;
+                border-radius: 20px;
+                padding: 25px;
+                background: grey;
+                transition: 3s ease-in-out;
+                text-align: center;
+                box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.7);
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #delete-btn {
+                background: pink;
+                border-radius: 50px;
+                border: solid 0.5px black;
+                padding: 3px;
+                width: 175px;
+                transition: 0.2s ease-in-out;
+            }
+
+            #delete-btn:hover {
+                background: red;
+                font-weight: bold;
+            }
 
         </style>
     </head>
     <body>
         <h1>Editing {{port.portfolio_name}}</h1>
+        <!-- Delete portfolio Modal-->
+        <div class="modal-container" id="port-modal">
+            <div class="modal-text">
+                <span class="close" id="close-modal">&times;</span>
+                <div>
+                    Are you sure you want to delete {{ port.portfolio_name }}?
+                </div>
+                <div>
+                    <a class="btn" id="delete-port" href="{% url 'del_port' port.id %}">
+                        <div id="delete-btn">
+                            Delete Portfolio
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="container" id="securities-container">
             {% for sec in secs %}
                 <div class="row" id="security-row">
@@ -85,5 +150,30 @@
                 Close
             </div>
         </a>
+        <button id="del-port-btn" class="btn btn-primary" type="button">
+            Delete Portfolio
+        </button>
     </body>
+    <script>
+        var openbtn = document.getElementById('del-port-btn');
+        var modal_container = document.getElementById('port-modal');
+        var closebtn = document.getElementById('close-modal');
+    
+        openbtn.onclick = function() {
+            modal_container.style.display = 'flex';
+            modal_container.style.pointerEvents = 'auto';
+        }
+    
+        closebtn.onclick = function() {
+            modal_container.style.display = 'none';
+            modal_container.style.pointerEvents = 'none'
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal_container) {
+                modal_container.style.display = 'none';
+                modal_container.style.pointerEvents = 'none';
+            } 
+        }
+    </script>
 </html>

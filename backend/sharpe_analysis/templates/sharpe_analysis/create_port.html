@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-{% load static %} 
-<head>
-    <title>Create Portfolio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-   
-</head>
-<body>
+{% extends 'sharpe_analysis/dashboard.html' %}
     <form method="post" action="">
         {% csrf_token %}
         <div class="modal-header">
@@ -16,8 +8,8 @@
             </button>
         </div>
         <div class="modal-body">
-              <div class="form-group{% if field.errors %} invalid{% endif %}">
-                <label for="{{ form.portfolio_name.id_for_label }}">{{ form.portfolio_name.label }}</label>
+              <div>
+                <label>{{ form.portfolio_name.label }}</label>
                 {{ form.portfolio_name }}
                 {% for error in field.errors %}
                   <p class="help-block">{{ error }}</p>
@@ -28,4 +20,3 @@
             <input type="submit" class="btn submit-btn" value="Create" />
         </div>
     </form>
-</body>

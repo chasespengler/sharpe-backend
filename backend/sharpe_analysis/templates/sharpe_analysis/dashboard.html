@@ -85,9 +85,10 @@
             text-decoration: none;
         }
 
-        /* Modal */
+        /* Add Portfolio Modal */
         .modal-container {
-            opacity: 0;
+            display: none;
+            pointer-events: none;
             
             position: fixed;
             top: 0;
@@ -95,15 +96,18 @@
             width: 100vw;
             height: 100vw;
             overflow: auto;
+            justify-content: center;
         }
 
-        .modal-dialog {
+        .modal-text {
+            margin-top: 250px;
             width: 600px;
             height: 200px;
             max-width: 95%;
             border-radius: 20px;
             padding: 25px;
             background: green;
+            transition: 3s ease-in-out;
         }
 
         .close:hover,
@@ -112,12 +116,14 @@
             text-decoration: none;
             cursor: pointer;
         }
-
+        
     </style>
 </head>
 <body>
+    <!-- Welcome Message -->
     <span>
         <h1>Welcome, {{client.first_name}}</h1> 
+        <!-- logout button, add to navbar -->
         <a id="logout-btn" href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     </span>
     <br></br>
@@ -125,15 +131,34 @@
         <button id="create-port-btn" class="btn btn-primary" type="button">
             Add Portfolio
         </button>
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
     </div>
-    <!--
+
+    <!-- Add portfolio Modal-->
     <div class="modal-container" id="port-modal">
-        <span class="close" id="close-modal">&times;</span>
         <div class="modal-text">
-                 Greetings
+            <span class="close" id="close-modal">&times;</span>
+            Add a portfolio
+            <form method="post" action="">
+                {% csrf_token %}
+                <div>
+                    <!--
+                    <label>{{ form.portfolio_name.label }}</label>
+                    {{ form.portfolio_name }}
+                    -->
+                    {{ form }}
+                    {% for error in field.errors %}
+                        <p class="help-block">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <input type="submit" class="btn submit-btn" value="Create" />
+            </form>
         </div>
     </div>
-    -->
+
+    <!-- Portfolio display table -->
     <div id="portfolio-display" class="container">
         <div id="title-row" class="row">
             <div class="title column col1">
@@ -170,28 +195,29 @@
         {% endfor %}
     </div>
 
-</body>
-<!--
-<script>
-    var openbtn = document.getElementById('create-port-btn');
-    var modal_container = document.getElementById('port-modal');
-    var closebtn = document.getElementById('close-modal');
-
-    openbtn.onlick = function() {
-
-        console.log('FUCK')
-    }
-
-    closebtn.onlick = function() {
-        modal_container.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal_container) {
+    <script>
+        var openbtn = document.getElementById('create-port-btn');
+        var modal_container = document.getElementById('port-modal');
+        var closebtn = document.getElementById('close-modal');
+    
+        openbtn.onclick = function() {
+            modal_container.style.display = 'flex';
+            modal_container.style.pointerEvents = 'auto';
+        }
+    
+        closebtn.onclick = function() {
             modal_container.style.display = 'none';
-        } 
-    }
-</script>
--->
+            modal_container.style.pointerEvents = 'none'
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal_container) {
+                modal_container.style.display = 'none';
+                modal_container.style.pointerEvents = 'none';
+            } 
+        }
+    </script>
+
+</body>
 </html>
 

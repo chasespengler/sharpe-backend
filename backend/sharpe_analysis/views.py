@@ -13,7 +13,18 @@ from .models import *
 def dashboard(request):
     cur_client = request.user.client
     ports = cur_client.portfolio_set.all()
-    context = {'client': cur_client, 'portfolios': ports}
+    form = PortModalForm(initial={'owner':cur_client})
+    context = {'client': cur_client, 'portfolios': ports, 'form':form}
+    if request.method == 'POST':
+        form = PortModalForm(request.POST, initial={'owner':cur_client})
+        if form.is_valid():
+            z = []
+            for x in ports.values('portfolio_name'):
+                z.append(x['portfolio_name'])
+            if form.cleaned_data.get('portfolio_name') not in z:
+                form.save()
+            else:
+                messages.info(request, 'Portfolio with that name already exists.')
     return render(request, 'sharpe_analysis/dashboard.html', context)
 
 @login_required(login_url='login')
@@ -27,7 +38,7 @@ def portfolioPage(request, pid):
 @login_required(login_url='login')
 def createPort(request):
     client = request.user.client
-    form = PortModalForm(initial={'owner':client})
+    
     context = {'form': form}
     if request.method == 'POST':
         form = PortModalForm(request.POST)
@@ -55,6 +66,11 @@ def editPort(request, pid):
             form.save()
     context = {'port':port, 'formy':form, 'secs': secs}
     return render(request, 'sharpe_analysis/edit_portfolio.html', context)
+
+@login_required(login_url='login')
+def del_port(request, pid):
+    Portfolio.objects.filter(id=pid).delete()
+    return redirect('dashboard')
 
 def registration(request):
     form = CreateUserForm()
