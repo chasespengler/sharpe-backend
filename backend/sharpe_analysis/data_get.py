@@ -95,4 +95,3 @@ def get_eq_data(tickers):
 
     return data
 
-print(get_eq_data(['GOOG', 'AMZN']))

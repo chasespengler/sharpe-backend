@@ -141,14 +141,18 @@
         <div class="modal-text">
             <span class="close" id="close-modal">&times;</span>
             Add a portfolio
-            <form method="post" action="">
+            <form method="POST" action="">
                 {% csrf_token %}
                 <div>
                     <!--
                     <label>{{ form.portfolio_name.label }}</label>
                     {{ form.portfolio_name }}
                     -->
-                    {{ form }}
+                    {{ form.management_form }}
+                    {% for f in form %}
+                        {{ f.portfolio_name.label }}
+                        {{ f.portfolio_name }}
+                    {% endfor %}
                     {% for error in field.errors %}
                         <p class="help-block">{{ error }}</p>
                     {% endfor %}

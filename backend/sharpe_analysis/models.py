@@ -31,7 +31,9 @@ class Portfolio(models.Model):
     owner = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     #Attributes
-    ytd = 0
+    ytd = models.FloatField(default=0)
+    sharpe = models.FloatField(null=True)
+    valatrisk = models.FloatField(null=True)
 
     def __str__(self):
         return self.portfolio_name
