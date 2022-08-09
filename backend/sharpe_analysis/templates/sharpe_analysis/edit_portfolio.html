@@ -9,8 +9,13 @@
             #securities-container {
                 background: green;
             }
+
             #security-row {
                 background: grey;
+            }
+
+            .column {
+                padding: 5px 25px;
             }
 
             #add-sec {
@@ -37,12 +42,12 @@
             #close-edit-port {
                 text-decoration: none;
                 color: black;
-                background: pink;
+                background: skyblue;
                 margin: 10px;
             }
 
             #close-edit-port:hover {
-                background: red;
+                background: blue;
             }
             
             /* Add Portfolio Modal */
@@ -120,6 +125,19 @@
                     <div class="column" id="security-ticker">
                         {{ sec.ticker }}
                     </div>
+                    <div class="column" id="security-type">
+                        {{ sec.security_type}}
+                    </div>
+                    <div class="column" id="security-amount">
+                        {{ sec.amount }}
+                    </div>
+                    <div>
+                        <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                            <div id="delete-sec-btn">
+                                Delete
+                            </div>
+                        </a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -145,12 +163,12 @@
                 <input class="btn" id="sec-add-btn" type="submit" value="Add Security"/>
             </div>
         </form>
-        <a class="btn" id="close-edit-port" href="{% url 'dashboard' %}">
+        <a class="btn" id="close-edit-port" href="{% url 'analyze' port.id %}">
             <div id="close-edit-port-btn">
-                Close
+                Close and Analyze
             </div>
         </a>
-        <button id="del-port-btn" class="btn btn-primary" type="button">
+        <button id="del-port-btn" class="btn btn-danger" type="button">
             Delete Portfolio
         </button>
     </body>

@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import CreateUserForm, PortModalForm
 from django.contrib.auth.decorators import login_required
 from .models import *
+from .data_get import *
 
 @login_required(login_url='login')
 def dashboard(request):
@@ -50,12 +51,35 @@ def editPort(request, pid):
                     context = {'port':port, 'formy':form, 'secs': secs}
                     return render(request, 'sharpe_analysis/edit_portfolio.html', context)
             form.save()
+            form = EditPortForm(queryset=Security.objects.none(), instance=port)
+            
     context = {'port':port, 'formy':form, 'secs': secs}
     return render(request, 'sharpe_analysis/edit_portfolio.html', context)
 
 @login_required(login_url='login')
 def del_port(request, pid):
     Portfolio.objects.filter(id=pid).delete()
+    return redirect('dashboard')
+
+@login_required(login_url='login')
+def del_sec(request, sid, pid):
+    Security.objects.filter(id=sid).delete()
+    return editPort(request, pid)
+
+@login_required(login_url='login')
+def analyze(request, pid):
+    port = Portfolio.objects.get(id=pid)
+    secs = port.security_set.all()
+    tickers = []
+    for sec in secs:
+        tickers.append(sec.ticker)
+    bad, good = needs_adding(tickers)
+    if bad:
+        add_eq_data(bad)
+        data = get_eq_data(tickers)
+    else:
+        data = get_eq_data(tickers)
+    print(data)
     return redirect('dashboard')
 
 def registration(request):

@@ -4,10 +4,20 @@ Holds functions necessary to calculate certain financial metrics
 from statistics import mean
 import yfinance as yf
 
-def expected_return(ticker):
+def calc_sharpe(eq_data, port_data):
     '''
-    Returns the expected return of a security
-    args: ticker (str, takes the ticker of a security)
+    Returns the sharpe ratio of a portfolio
+    args: eq_data (dictionary of json, takes the relevant input data in the following format:
+    {
+        'SPY':
+            {
+                'ticker':'SPY',
+                'mean': 0.5,
+                'sd': 0.15,
+                'cur_price': 100,
+            }
+    }
+    )
     '''
     pass
 

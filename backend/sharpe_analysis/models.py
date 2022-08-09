@@ -32,8 +32,8 @@ class Portfolio(models.Model):
 
     #Attributes
     ytd = models.FloatField(default=0)
-    sharpe = models.FloatField(null=True)
-    valatrisk = models.FloatField(null=True)
+    sharpe = models.FloatField(default=0)
+    valatrisk = models.FloatField(default=0)
 
     def __str__(self):
         return self.portfolio_name

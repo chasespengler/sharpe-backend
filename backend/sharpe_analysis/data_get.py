@@ -73,13 +73,8 @@ def update_and_add_eq(tickers):
     '''
     Adds and updates equity data
     '''
-    add = []
-    update = []
-    for tick in tickers:
-        if requests.get(r + 'api/exists/' + tick + '/').text == 'true':
-            update.append(tick)
-        else:
-            add.append(tick)
+    add, update = needs_adding(tickers)
+    
     if update:
         update_eq_data(update)
     if add:
@@ -95,3 +90,16 @@ def get_eq_data(tickers):
 
     return data
 
+def needs_adding(tickers):
+    '''
+    Returns tickers that need to be added to equity stats database and those that already exist, respectively
+    '''
+    add = []
+    update = []
+    for tick in tickers:
+        if requests.get(r + 'api/exists/' + tick + '/').text == 'true':
+            update.append(tick)
+        else:
+            add.append(tick)
+
+    return add, update
