@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sharpe_analysis',
     'bootstrap_modal_forms',
+    'stat_micro',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
