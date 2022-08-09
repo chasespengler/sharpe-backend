@@ -31,7 +31,7 @@ def postStats(request):
 
 @api_view(['POST'])
 def updateStats(request, pk):
-    sec = SecurityStats.objects.get(id=pk)
+    sec = SecurityStats.objects.get(pk=pk)
     serializer = SecStatsSerializer(instance=sec, data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -39,7 +39,7 @@ def updateStats(request, pk):
 
 @api_view(['POST'])
 def deleteStats(request, pk):
-    SecurityStats.objects.get(id=pk).delete()
+    SecurityStats.objects.get(pk=pk).delete()
     return Response('Item successfully deleted.')
 
 @api_view(['GET'])

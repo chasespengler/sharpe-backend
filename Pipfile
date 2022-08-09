@@ -7,6 +7,9 @@ name = "pypi"
 python-json-logger = "*"
 django = "*"
 djangorestframework = "*"
+yfinance = "*"
+statistics = "*"
+requests = "*"
 
 [dev-packages]
 pipenv = "*"
