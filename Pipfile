@@ -10,6 +10,7 @@ djangorestframework = "*"
 yfinance = "*"
 statistics = "*"
 requests = "*"
+asyncio = "*"
 
 [dev-packages]
 pipenv = "*"
