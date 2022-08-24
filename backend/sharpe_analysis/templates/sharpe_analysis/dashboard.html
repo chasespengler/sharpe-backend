@@ -56,6 +56,12 @@
             border-right: 1px solid black;
         }
 
+        .column {
+            width: 160px;
+            text-align: center;
+            border-right: 1px solid black;
+        }
+
         /* Edit button */
 
         #edit-port-btn {
@@ -174,6 +180,9 @@
             <div id="top-holdings-title" class="title column col3">
                 Top Holdings
             </div>
+            <div id="top-holdings-title" class="title column col4">
+                Sharpe Ratio
+            </div>
         </div>
         {% for port in portfolios %}
             <div id="portfolio-info-row" class="row">
@@ -187,6 +196,9 @@
                 </div>
                 <div id="top-holdings" class="column col3">
                     {{port.portfolio_name}}'s top holdings
+                </div>
+                <div id="sharpe" class="column col4">
+                    {{port.sharpe}}
                 </div>
                 <div id="edit-btn-container" class="column">
                     <a id="edit-port-btn-link" href="{% url 'edit_port' port.id %}">

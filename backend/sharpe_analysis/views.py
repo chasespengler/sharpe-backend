@@ -6,6 +6,7 @@ from .forms import CreateUserForm, PortModalForm
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .data_get import *
+from .calculations import *
 import asyncio
 
 @login_required(login_url='login')
@@ -82,6 +83,11 @@ def analyze(request, pid):
         data = get_eq_data(tickers)
     print(data)
     print(secs.values())
+    port.sharpe = calc_sharpe(data, secs.values())
+    port.save()
+
+    print(port.sharpe)
+
     return redirect('dashboard')
 
 def registration(request):
