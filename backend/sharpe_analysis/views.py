@@ -81,12 +81,9 @@ def analyze(request, pid):
         data = get_eq_data(tickers)
     else:
         data = get_eq_data(tickers)
-    print(data)
-    print(secs.values())
-    port.sharpe = calc_sharpe(data, secs.values())
-    port.save()
 
-    print(port.sharpe)
+    port.sharpe, port.sortino, port.valatrisk = calc_sharpe(data, secs.values())
+    port.save()
 
     return redirect('dashboard')
 

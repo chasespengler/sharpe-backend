@@ -180,8 +180,14 @@
             <div id="top-holdings-title" class="title column col3">
                 Top Holdings
             </div>
-            <div id="top-holdings-title" class="title column col4">
+            <div id="sharpe-title" class="title column col4">
                 Sharpe Ratio
+            </div>
+            <div id="sortino-title" class="title column col4">
+                Sortino Ratio
+            </div>
+            <div id="VAR-title" class="title column col4">
+                VAR
             </div>
         </div>
         {% for port in portfolios %}
@@ -199,6 +205,12 @@
                 </div>
                 <div id="sharpe" class="column col4">
                     {{port.sharpe}}
+                </div>
+                <div id="sortino" class="column col4">
+                    {{port.sortino}}
+                </div>
+                <div id="VAR" class="column col4">
+                    ${{port.valatrisk}}
                 </div>
                 <div id="edit-btn-container" class="column">
                     <a id="edit-port-btn-link" href="{% url 'edit_port' port.id %}">

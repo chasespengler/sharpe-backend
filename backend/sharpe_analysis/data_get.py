@@ -17,11 +17,14 @@ def add_eq_data(tickers):
         d = data.pct_change().dropna().values
         ev = mean(d)
         sd = stdev(d)
+        down_sd = (sum(((d[(d < 0)] - ev) ** 2)) / len(d)) ** 0.5
+        print(sd, down_sd)
         js = {
             "ticker": tickers[0],
             "mean": ev,
             "sd": sd,
             "cur_price": cur_price,
+            "down_sd": down_sd,
         }
         requests.post(r + 'api/post-stats/', js)
     else:
@@ -30,11 +33,13 @@ def add_eq_data(tickers):
             d = data[col].dropna().values
             ev = mean(d)
             sd = stdev(d)
+            down_sd = (sum(((d[(d < 0)] - ev) ** 2)) / len(d)) ** 0.5
             js = {
                 "ticker": col,
                 "mean": ev,
                 "sd": sd,
                 "cur_price": d[-1],
+                "down_sd": down_sd,
             }
             requests.post(r + 'api/post-stats/', js)
 
@@ -48,11 +53,13 @@ def update_eq_data(tickers):
         d = data.pct_change().dropna().values
         ev = mean(d)
         sd = stdev(d)
+        down_sd = (sum(((d[(d < 0)] - ev) ** 2)) / len(d)) ** 0.5
         js = {
             "ticker": tickers[0],
             "mean": ev,
             "sd": sd,
             "cur_price": cur_price,
+            "down_sd": down_sd,
         }
         requests.post(r + 'api/update-stats/' + str(tickers[0]) + '/', js)
     else:
@@ -61,11 +68,13 @@ def update_eq_data(tickers):
             d = data[col].dropna().values
             ev = mean(d)
             sd = stdev(d)
+            down_sd = (sum(((d[(d < 0)] - ev) ** 2)) / len(d)) ** 0.5
             js = {
                 "ticker": col,
                 "mean": ev,
                 "sd": sd,
                 "cur_price": d[-1],
+                "down_sd": down_sd,
             }
             requests.post(r + 'api/update-stats/' + str(col) + '/', js)
 

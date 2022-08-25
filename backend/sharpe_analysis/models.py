@@ -33,6 +33,7 @@ class Portfolio(models.Model):
     #Attributes
     ytd = models.FloatField(default=0)
     sharpe = models.FloatField(default=0)
+    sortino = models.FloatField(default=0)
     valatrisk = models.FloatField(default=0)
 
     def __str__(self):

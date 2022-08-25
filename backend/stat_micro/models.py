@@ -10,6 +10,7 @@ class SecurityStats(models.Model):
     mean = models.FloatField(null=True)
     sd = models.FloatField(null=True)
     cur_price = models.FloatField(null=True)
+    down_sd = models.FloatField(null=True)
 
     def __str__(self):
         return self.ticker
