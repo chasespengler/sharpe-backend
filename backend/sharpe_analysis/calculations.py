@@ -72,7 +72,7 @@ def calc_sharpe(eq_data, port_data):
     sharpe = (port_ev_return - rf_rate) / port_sd_return
     sortino = (port_ev_return - rf_rate) / port_down_sd if port_down_sd else 0.0
     value_at_risk = port_value * (2.33 * port_sd_return)
-    return round(sharpe, 4), round(sortino, 4), round(value_at_risk, 2)
+    return round(sharpe, 4), round(sortino, 4), round(value_at_risk, 2), port_value
 
 
 

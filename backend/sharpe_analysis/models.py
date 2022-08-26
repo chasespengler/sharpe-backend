@@ -37,6 +37,7 @@ class Portfolio(models.Model):
     valatrisk = models.FloatField(default=0)
     top3 = models.CharField(max_length=25, default='')
     total_val = models.FloatField(default=0)
+    year_beg_val = models.FloatField(default=0)
 
     def __str__(self):
         return self.portfolio_name
