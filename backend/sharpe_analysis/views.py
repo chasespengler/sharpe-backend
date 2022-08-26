@@ -82,6 +82,7 @@ def analyze(request, pid):
     else:
         data = get_eq_data(tickers)
 
+    #update_and_add_eq(tickers)
     port.sharpe, port.sortino, port.valatrisk = calc_sharpe(data, secs.values())
     port.save()
 

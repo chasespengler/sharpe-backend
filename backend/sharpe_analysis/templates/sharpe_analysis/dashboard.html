@@ -2,17 +2,48 @@
 <html>
 <head>
     <title>Dashboard</title>
-    
+    {% load static %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <style>
+        body {
+            background: black;
+        }
+
+        #dash-welcome {
+            color: white;
+        }
 
         #logout-btn {
             margin: 10px;
+            float: right;
         }
 
         #add-port-btn {
             margin: 10px;
+        }
+
+        /* Portfolio display cards */
+        .card {
+            margin-bottom: 15px;
+        }
+
+        .port-info-section {
+            text-align: center;
+        }
+
+        #port-info-section-title {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        #card-edit-btn-container {
+            text-decoration: none;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 160px;
         }
 
         /* Portfolio display table */
@@ -30,6 +61,7 @@
 
         #portfolio-name-link {
             text-decoration: none;
+            color: black;
         }
 
         .col1 {
@@ -103,6 +135,7 @@
             height: 100vw;
             overflow: auto;
             justify-content: center;
+            z-index: 99;
         }
 
         .modal-text {
@@ -128,7 +161,7 @@
 <body>
     <!-- Welcome Message -->
     <span>
-        <h1>Welcome, {{client.first_name}}</h1> 
+        <h1 id="dash-welcome">Welcome, {{client.first_name}}</h1> 
         <!-- logout button, add to navbar -->
         <a id="logout-btn" href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     </span>
@@ -168,7 +201,81 @@
         </div>
     </div>
 
+
+    <!-- Portfolio card display -->
+    <div id="portfolio-cards" class="container">
+        <div id="portfolio-cards-row" class="row">
+            {% for port in portfolios %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <a id="portfolio-name-link" href="{% url 'portfolio' port.id %}">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                {{ port.portfolio_name }}
+                            </h5>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <div id="port-info" class="container">
+                            <div id="port-info-row" class="row">
+                                <div id="pnl-ytd" class="port-info-section col-md-6">
+                                    <div id="port-info-section-title">
+                                        PNL YTD:
+                                    </div>
+                                    {% if port.ytd >= 0 %}
+                                        <div style="color: green">
+                                            {{ port.ytd }} %
+                                        </div>
+                                    {% else %}
+                                        <div style="color: red">
+                                            {{ port.ytd }} %
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div id="top-holdings" class="port-info-section col-md-6">
+                                    <div id="port-info-section-title">
+                                        Top Holdings:
+                                    </div>
+                                    top holdings
+                                </div>
+                                <div id="sharpe-ratio" class="port-info-section col-md-6">
+                                    <div id="port-info-section-title">
+                                        Sharpe Ratio:
+                                    </div>
+                                    {{ port.sharpe }}
+                                </div>
+                                <div id="sortino-ratio" class="port-info-section col-md-6">
+                                    <div id="port-info-section-title">
+                                        Sortino Ratio:
+                                    </div>
+                                    {{ port.sortino }}
+                                </div>
+                                <div id="var" class="port-info-section col-md-6">
+                                    <div id="port-info-section-title">
+                                        VAR:
+                                    </div>
+                                    ${{ port.valatrisk }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="container" id="card-edit-btn-container">
+                            <a id="edit-port-btn-link" href="{% url 'edit_port' port.id %}">
+                                <div id="edit-port-btn" class="btn">
+                                    Edit Portfolio
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- Portfolio display table -->
+    <!--
     <div id="portfolio-display" class="container">
         <div id="title-row" class="row">
             <div class="title column col1">
@@ -222,7 +329,7 @@
             </div>
         {% endfor %}
     </div>
-
+    -->
     <script>
         var openbtn = document.getElementById('create-port-btn');
         var modal_container = document.getElementById('port-modal');
