@@ -222,8 +222,12 @@
                                     <div id="port-info-section-title">
                                         PNL YTD:
                                     </div>
-                                    {% if port.ytd >= 0 %}
+                                    {% if port.ytd > 0 %}
                                         <div style="color: green">
+                                            {{ port.ytd }} %
+                                        </div>
+                                    {% elif port.ytd == 0 %}
+                                        <div style="color: burlywood">
                                             {{ port.ytd }} %
                                         </div>
                                     {% else %}
