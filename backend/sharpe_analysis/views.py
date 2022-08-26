@@ -72,6 +72,8 @@ def del_sec(request, sid, pid):
 def analyze(request, pid):
     port = Portfolio.objects.get(id=pid)
     secs = port.security_set.all()
+    if not secs:
+        return redirect('dashboard')
     tickers = []
     for sec in secs:
         tickers.append(sec.ticker)
@@ -84,6 +86,8 @@ def analyze(request, pid):
 
     #update_and_add_eq(tickers)
     port.sharpe, port.sortino, port.valatrisk, port.total_val = calc_sharpe(data, secs.values())
+    port.ytd = (port.total_val - port.year_bg_val) / port.year_beg_val
+    
     port.save()
 
     return redirect('dashboard')
