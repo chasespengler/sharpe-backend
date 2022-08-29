@@ -86,7 +86,7 @@ def analyze(request, pid):
 
     #update_and_add_eq(tickers)
     port.sharpe, port.sortino, port.valatrisk, port.total_val = calc_sharpe(data, secs.values())
-    port.ytd = (port.total_val - port.year_bg_val) / port.year_beg_val
+    #port.ytd = (port.total_val - port.year_beg_val) / port.year_beg_val
     
     port.save()
 
