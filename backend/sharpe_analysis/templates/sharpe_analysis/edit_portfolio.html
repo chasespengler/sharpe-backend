@@ -6,16 +6,74 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
         <style>
+
+            body {
+                background: #010606;
+            }
+            
+            h1 {
+                margin: 7px;
+                margin-bottom: 20px;
+                color: #fff;
+            }
+
+            @media screen and (max-width: 550px) {
+                    h1 {
+                        font-size: 30px;
+                    }
+                }
+
+            #close-del-btns {
+                float: right;
+                margin-top: -65px;
+                margin-right: 20px;
+            }
+
+            h4 {
+                margin: 5px;
+                color: #fff;
+            }
+
             #securities-container {
                 background: green;
+                border-radius: 25px;
             }
 
             #security-row {
                 background: grey;
             }
 
+            #equity-col {
+                background: #fff;
+                margin: 5px;
+                border-radius: 25px;
+                color: #0a80ff;
+                font-size: 21px;
+            }
+
+            #bond-col {
+                background: green;
+                margin: 5px;
+                border-radius: 25px;
+            }
+
+            #crypto-col {
+                background: purple;
+                margin: 5px;
+                border-radius: 50px;
+            }
+
+            #delete-sec {
+                border-radius: 25px;
+                color: #fff;
+            }
+
             .column {
                 padding: 5px 25px;
+            }
+
+            #add-sec-form-container {
+                color: #fff;
             }
 
             #add-sec {
@@ -36,12 +94,12 @@
 
             #sec-add-btn:hover {
                 background: skyblue;
-                color: black;
+                color: #010606;
             }
 
             #close-edit-port {
                 text-decoration: none;
-                color: black;
+                color: #010606;
                 background: skyblue;
                 margin: 10px;
             }
@@ -50,7 +108,7 @@
                 background: blue;
             }
             
-            /* Add Portfolio Modal */
+            /* Delete Portfolio Modal */
 
             .modal-container {
                 display: none;
@@ -65,6 +123,10 @@
                 justify-content: center;
             }
 
+            #port-modal {
+                z-index: 99;
+            }
+
             .modal-text {
                 margin-top: 250px;
                 width: 600px;
@@ -72,8 +134,7 @@
                 max-width: 95%;
                 border-radius: 20px;
                 padding: 25px;
-                background: grey;
-                transition: 3s ease-in-out;
+                background: rgba(255, 255, 255, 0.89);
                 text-align: center;
                 box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.7);
             }
@@ -102,7 +163,19 @@
         </style>
     </head>
     <body>
-        <h1>Editing {{port.portfolio_name}}</h1>
+        <div>
+            <h1>Editing {{port.portfolio_name}}</h1>
+            <span id="close-del-btns">
+                <a class="btn" id="close-edit-port" href="{% url 'analyze' port.id %}">
+                    <div id="close-edit-port-btn">
+                        Close and Analyze
+                    </div>
+                </a>
+                <button id="del-port-btn" class="btn btn-danger" type="button">
+                    Delete Portfolio
+                </button>
+            </span>
+        </div>
         <!-- Delete portfolio Modal-->
         <div class="modal-container" id="port-modal">
             <div class="modal-text">
@@ -120,57 +193,105 @@
             </div>
         </div>
         <div class="container" id="securities-container">
+            <div class="row" id="securities-title-row">
+                <div class="col-lg-4 text-center" id="equities-title">
+                    <h4>Equities</h4>
+                </div>
+                <div class="col-lg-4 text-center" id="bonds-title">
+                    <h4>Bonds</h4>
+                </div>
+                <div class="col-lg-4 text-center" id="crypto-title">
+                    <h4>Cryptocurrencies</h4>
+                </div>
+            </div>
             {% for sec in secs %}
                 <div class="row" id="security-row">
-                    <div class="column" id="security-ticker">
-                        {{ sec.ticker }}
-                    </div>
-                    <div class="column" id="security-type">
-                        {{ sec.security_type}}
-                    </div>
-                    <div class="column" id="security-amount">
-                        {{ sec.amount }}
-                    </div>
-                    <div>
-                        <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
-                            <div id="delete-sec-btn">
-                                Delete
+                    {% if sec.security_type == 'Equity' %}
+                        <div class="col-lg-4" id="equity-col">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="column col-lg-4 text-center" id="security-ticker">
+                                        {{ sec.ticker }}
+                                    </div>
+                                    <div class="column col-lg-4 text-center" id="security-amount">
+                                        {{ sec.amount }}
+                                    </div>
+                                    <div class="column col-lg-4 text-center">
+                                        <a class="btn btn-danger" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                                            <div id="delete-sec-btn">
+                                                Delete
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    {% elif sec.security_type == 'Bond' %}
+                        <div class="col-lg-4" id="bond-col">
+                            <div class="column" id="security-ticker">
+                                {{ sec.ticker }}
+                            </div>
+                            <div class="column" id="security-type">
+                                {{ sec.security_type}}
+                            </div>
+                            <div class="column" id="security-amount">
+                                {{ sec.amount }}
+                            </div>
+                            <div>
+                                <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                                    <div id="delete-sec-btn">
+                                        Delete
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-lg-4" id="crypto-col">
+                            <div class="column" id="security-ticker">
+                                {{ sec.ticker }}
+                            </div>
+                            <div class="column" id="security-type">
+                                {{ sec.security_type}}
+                            </div>
+                            <div class="column" id="security-amount">
+                                {{ sec.amount }}
+                            </div>
+                            <div>
+                                <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                                    <div id="delete-sec-btn">
+                                        Delete
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div id="add-sec">
-                {{ formy.management_form }}
-                {% for f in formy %}
-                    {{ f.ticker.label }}
-                    {{ f.ticker }}
-                    {{ f.security_type.label }}
-                    {{ f.security_type }}
-                    {{ f.amount.label }}
-                    {{ f.amount }}
-                {% endfor %}
-            </div>
-            <div class='ticker-message'>
-                {% for message in messages %}
-                    {{message}}
-                {% endfor %}
-            </div>
-            <div>
-                <input class="btn" id="sec-add-btn" type="submit" value="Add Security"/>
-            </div>
-        </form>
-        <a class="btn" id="close-edit-port" href="{% url 'analyze' port.id %}">
-            <div id="close-edit-port-btn">
-                Close and Analyze
-            </div>
-        </a>
-        <button id="del-port-btn" class="btn btn-danger" type="button">
-            Delete Portfolio
-        </button>
+        <div id="add-sec-form-container" class="container text-center">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div id="add-sec">
+                    {{ formy.management_form }}
+                    {% for f in formy %}
+                        {{ f.ticker.label }}
+                        {{ f.ticker }}
+                        {{ f.security_type.label }}
+                        {{ f.security_type }}
+                        {{ f.amount.label }}
+                        {{ f.amount }}
+                    {% endfor %}
+                </div>
+                <div class='ticker-message'>
+                    {% for message in messages %}
+                        {{message}}
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <input class="btn" id="sec-add-btn" type="submit" value="Add Security"/>
+                </div>
+            </form>
+        </div>
     </body>
     <script>
         var openbtn = document.getElementById('del-port-btn');
