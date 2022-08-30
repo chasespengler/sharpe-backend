@@ -34,21 +34,12 @@
                 color: #fff;
             }
 
-            #securities-container {
-                background: green;
-                border-radius: 25px;
-            }
-
-            #security-row {
-                background: grey;
-            }
-
             #equity-col {
                 background: #fff;
                 margin: 5px;
                 border-radius: 25px;
                 color: #0a80ff;
-                font-size: 21px;
+                font-size: 22px;
             }
 
             #bond-col {
@@ -210,13 +201,13 @@
                         <div class="col-lg-4" id="equity-col">
                             <div class="container">
                                 <div class="row">
-                                    <div class="column col-lg-4 text-center" id="security-ticker">
+                                    <div class="column col-4 text-center" id="security-ticker">
                                         {{ sec.ticker }}
                                     </div>
-                                    <div class="column col-lg-4 text-center" id="security-amount">
+                                    <div class="column col-4 text-center" id="security-amount">
                                         {{ sec.amount }}
                                     </div>
-                                    <div class="column col-lg-4 text-center">
+                                    <div class="column col-4 text-center">
                                         <a class="btn btn-danger" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
                                             <div id="delete-sec-btn">
                                                 Delete
