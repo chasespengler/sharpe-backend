@@ -157,6 +157,11 @@
         <div>
             <h1>Editing {{port.portfolio_name}}</h1>
             <span id="close-del-btns">
+                <a class="btn" id="close-edit-port" href="{% url 'dashboard' %}">
+                    <div id="close-edit-port-btn">
+                        Cancel
+                    </div>
+                </a>
                 <a class="btn" id="close-edit-port" href="{% url 'analyze' port.id %}">
                     <div id="close-edit-port-btn">
                         Close and Analyze
