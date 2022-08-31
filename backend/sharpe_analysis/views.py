@@ -46,6 +46,10 @@ def editPort(request, pid):
         form = EditPortForm(request.POST, instance=port)
         if form.is_valid():
             tick = form.cleaned_data[0].get('ticker')
+            if not ticker_is_real(tick):
+                messages.info(request, "Ticker doesn't exist.")
+                context = {'port':port, 'formy':form, 'secs': secs}
+                return render(request, 'sharpe_analysis/edit_portfolio.html', context)
             ticks = secs.values('ticker')
             for x in ticks:
                 if x['ticker'] == tick:

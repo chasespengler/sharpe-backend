@@ -7,6 +7,14 @@ import requests
 
 r = 'http://127.0.0.1:8000/'
 
+def ticker_is_real(tick):
+    '''
+    Returns the status of a ticker's existence
+    '''
+    if yf.download(tick).empty:
+        return False
+    return True
+
 def add_eq_data(tickers):
     '''
     Adds new equity data
