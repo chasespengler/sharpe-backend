@@ -46,6 +46,10 @@ def editPort(request, pid):
         form = EditPortForm(request.POST, instance=port)
         if form.is_valid():
             tick = form.cleaned_data[0].get('ticker')
+            if not tick:
+                messages.info(request, "Please enter all required information.")
+                context = {'port':port, 'formy':form, 'secs': secs}
+                return render(request, 'sharpe_analysis/edit_portfolio.html', context)
             if not ticker_is_real(tick):
                 messages.info(request, "Ticker doesn't exist.")
                 context = {'port':port, 'formy':form, 'secs': secs}
@@ -58,7 +62,10 @@ def editPort(request, pid):
                     return render(request, 'sharpe_analysis/edit_portfolio.html', context)
             form.save()
             form = EditPortForm(queryset=Security.objects.none(), instance=port)
-            
+        else:
+            messages.info(request, "Please enter all required information.")
+            context = {'port':port, 'formy':form, 'secs': secs}
+            return render(request, 'sharpe_analysis/edit_portfolio.html', context)
     context = {'port':port, 'formy':form, 'secs': secs}
     return render(request, 'sharpe_analysis/edit_portfolio.html', context)
 
