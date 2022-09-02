@@ -54,6 +54,10 @@ def editPort(request, pid):
                 messages.info(request, "Ticker doesn't exist.")
                 context = {'port':port, 'formy':form, 'secs': secs}
                 return render(request, 'sharpe_analysis/edit_portfolio.html', context)
+            if form.cleaned_data[0].get('security_type') == 'Crypto' and '-' not in tick:
+                messages.info(request, "Ensure that the ticker is in the right format for cryptocurrencies.")
+                context = {'port':port, 'formy':form, 'secs': secs}
+                return render(request, 'sharpe_analysis/edit_portfolio.html', context)
             ticks = secs.values('ticker')
             for x in ticks:
                 if x['ticker'] == tick:
