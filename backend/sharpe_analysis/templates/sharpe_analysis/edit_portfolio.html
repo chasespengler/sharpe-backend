@@ -4,7 +4,9 @@
         <title>Dashboard</title>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
         <style>
 
             body {
@@ -15,6 +17,7 @@
                 margin: 7px;
                 margin-bottom: 20px;
                 color: #fff;
+                font-family: 'PT Serif', serif;
             }
 
             @media screen and (max-width: 550px) {
@@ -32,26 +35,36 @@
             h4 {
                 margin: 5px;
                 color: #fff;
+                margin-bottom: 10px;
+                font-family: 'PT Serif', serif;
             }
 
-            #equity-col {
+            .ind-sec {
                 background: #fff;
                 margin: 5px;
                 border-radius: 25px;
                 color: #0a80ff;
-                font-size: 22px;
+                font-size: 24px;
             }
 
-            #bond-col {
-                background: green;
-                margin: 5px;
-                border-radius: 25px;
+            #security-ticker {
+                font-family: 'PT Serif', serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
-            #crypto-col {
-                background: purple;
-                margin: 5px;
-                border-radius: 50px;
+            #security-amount {
+                font-family: 'PT Serif', serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #del-col {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             #delete-sec {
@@ -188,31 +201,22 @@
                 </div>
             </div>
         </div>
+
         <div class="container" id="securities-container">
-            <div class="row" id="securities-title-row">
-                <div class="col-lg-4 text-center" id="equities-title">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12 text-center" id="equities-col">
                     <h4>Equities</h4>
-                </div>
-                <div class="col-lg-4 text-center" id="bonds-title">
-                    <h4>Bonds</h4>
-                </div>
-                <div class="col-lg-4 text-center" id="crypto-title">
-                    <h4>Cryptocurrencies</h4>
-                </div>
-            </div>
-            {% for sec in secs %}
-                <div class="row" id="security-row">
-                    {% if sec.security_type == 'Equity' %}
-                        <div class="col-lg-4" id="equity-col">
-                            <div class="container">
+                    {% for sec in secs %}
+                        {% if sec.security_type == 'Equity' %}
+                            <div class="container ind-sec" id="equities-container">
                                 <div class="row">
-                                    <div class="column col-4 text-center" id="security-ticker">
+                                    <div class="column col-4" id="security-ticker">
                                         {{ sec.ticker }}
                                     </div>
-                                    <div class="column col-4 text-center" id="security-amount">
+                                    <div class="column col-3" id="security-amount">
                                         {{ sec.amount }}
                                     </div>
-                                    <div class="column col-4 text-center">
+                                    <div class="column col-4" id="del-col">
                                         <a class="btn btn-danger" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
                                             <div id="delete-sec-btn">
                                                 Delete
@@ -221,48 +225,58 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% elif sec.security_type == 'Bond' %}
-                        <div class="col-lg-4" id="bond-col">
-                            <div class="column" id="security-ticker">
-                                {{ sec.ticker }}
-                            </div>
-                            <div class="column" id="security-type">
-                                {{ sec.security_type}}
-                            </div>
-                            <div class="column" id="security-amount">
-                                {{ sec.amount }}
-                            </div>
-                            <div>
-                                <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
-                                    <div id="delete-sec-btn">
-                                        Delete
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="col-lg-4" id="crypto-col">
-                            <div class="column" id="security-ticker">
-                                {{ sec.ticker }}
-                            </div>
-                            <div class="column" id="security-type">
-                                {{ sec.security_type}}
-                            </div>
-                            <div class="column" id="security-amount">
-                                {{ sec.amount }}
-                            </div>
-                            <div>
-                                <a class="btn" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
-                                    <div id="delete-sec-btn">
-                                        Delete
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
+                <div class="col-lg-4 col-md-12 col-sm-12 text-center" id="bonds-col">
+                    <h4>Bonds</h4>
+                    {% for sec in secs %}
+                        {% if sec.security_type == 'Bond' %}
+                            <div class="container ind-sec" id="bonds-container">
+                                <div class="row">
+                                    <div class="column col-4" id="security-ticker">
+                                        {{ sec.ticker }}
+                                    </div>
+                                    <div class="column col-3" id="security-amount">
+                                        {{ sec.amount }}
+                                    </div>
+                                    <div class="column col-4" id="del-col">
+                                        <a class="btn btn-danger" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                                            <div id="delete-sec-btn">
+                                                Delete
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 text-center" id="crypto-col">
+                    <h4>Cryptocurrencies</h4>
+                    {% for sec in secs %}
+                        {% if sec.security_type == 'Crypto' %}
+                            <div class="container ind-sec" id="crypto-container">
+                                <div class="row">
+                                    <div class="column col-4" id="security-ticker">
+                                        {{ sec.ticker }}
+                                    </div>
+                                    <div class="column col-3" id="security-amount">
+                                        {{ sec.amount }}
+                                    </div>
+                                    <div class="column col-4" id="del-col">
+                                        <a class="btn btn-danger" id="delete-sec" href="{% url 'del_sec' sec.id port.id %}">
+                                            <div id="delete-sec-btn">
+                                                Delete
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div id="add-sec-form-container" class="container text-center">
             <form method="POST" action="">
